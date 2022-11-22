@@ -1,24 +1,33 @@
 const express = require("express");
-const typeorm = require("typeorm");
-const Wilder = require("./entity/Wilder");
+const dataSource = require("./utils").dataSource;
+const wilderController = require("./controller/wilder");
+const skillsController = require("./controller/skills");
+
 const app = express();
 
-const dataSource = new typeorm.DataSource({
-  type: "sqlite",
-  database: "./wildersdb.sqlite",
-  synchronize: true,
-  entities: [require("./entity/Wilder")],
-});
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-//Start Server
-const start = async () => {
-  await dataSource.initialize();
-  dataSource.getRepository(Wilder).save({ name: "First Wilder" });
-  app.listen(3000, () => console.log("Server started on 3000"));
-};
+//Wilders
+app.post("/api/wilder", wilderController.create);
+app.get("/api/wilder", wilderController.read);
+app.patch("/api/wilder/:id", wilderController.update);
+app.delete("/api/wilder/:id", wilderController.delete);
 
+//Skills
+app.post("/skills", skillsController.create);
+app.get("/skills", skillsController.read);
+app.patch("/skills/:id", skillsController.update);
+app.delete("/skills/:id", skillsController.delete);
+
+//Start Server
+async function start() {
+  await dataSource.initialize();
+  app.listen(3000, () => {
+    console.log("server ready");
+  });
+}
 start();

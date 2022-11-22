@@ -1,0 +1,30 @@
+//Création d'un skill
+POST http://localhost:3000/skills
+Content-Type: application/json
+
+{
+  "name": "JavaScript"
+}
+
+###
+
+//Lire tout les skills
+GET http://localhost:3000/skills
+
+
+###
+
+//Modifier un skill
+PATCH http://localhost:3000/skills/2
+Content-Type: application/json
+
+{
+  "name": "modif"
+}
+
+
+###
+
+//Supprimer un skill
+DELETE http://localhost:3000/skills/1
+Content-Type: application/json
