@@ -1,4 +1,4 @@
-const datasource = require("../utils");
+const datasource = require("../db");
 const Skill = require("../entity/Skill");
 
 module.exports = {
